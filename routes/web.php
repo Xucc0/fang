@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+//引入登录路由
+
+include base_path("routes/admin/login/route.php");
