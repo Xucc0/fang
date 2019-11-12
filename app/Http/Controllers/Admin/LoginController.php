@@ -11,6 +11,8 @@ class LoginController extends Controller
 
     public function index()
     {
+
+//        dump(session('success'));exit;
         return view("admin.login.index");
     }
 
@@ -25,11 +27,11 @@ class LoginController extends Controller
 
         $bool = auth()->attempt($data);
 
-        if($bool){
-
-            return redirect('admin/index');
+        if(!$bool){
+            return redirect('admin/login')->withErrors(['error'=>'登陆失败']);
         }
 
+            return redirect('admin/index');
 
     }
 

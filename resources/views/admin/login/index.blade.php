@@ -16,17 +16,18 @@
 <body id="falcon" class="authentication">
 <div class="wrapper">
     <div class="header header-filter"
-         style="background-image: url('assets/images/login-bg.jpg'); background-size: cover; background-position: top center;">
+         style="background-image: url('{{ staticPath() }}assets/images/login-bg.jpg'); background-size: cover; background-position: top center;">
         <div class="container">
             <div class="row">
+
                 <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 text-center">
+                    @include('admin.public.msg')
                     <div class="card card-signup">
+
                         <form class="form"  action="{{ route('admin.login') }}" method="post">
                             <div class="header header-primary text-center">
                                 <h4>后台管理系统</h4>
                             </div>
-                            {{--                            <h3 class="mt-0">Falcon</h3>--}}
-                            {{--                            <p class="help-block">Or Be Classical</p>--}}
                             <div class="content">
                                 @csrf
                                 <div class="form-group">

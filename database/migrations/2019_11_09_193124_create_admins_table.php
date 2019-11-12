@@ -22,6 +22,7 @@ class CreateAdminsTable extends Migration
             $table->string('phone',15)->default('')->comment('手机号码');
             $table->enum('sex',['先生','女士'])->default('先生')->comment('性别');
             $table->char('last_ip',15)->default('')->comment('登录IP');
+            $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
         });

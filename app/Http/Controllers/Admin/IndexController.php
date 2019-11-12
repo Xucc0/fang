@@ -8,8 +8,17 @@ use App\Http\Controllers\Controller;
 class IndexController extends Controller
 {
     //
-    public function index(){
+    public function index()
+    {
 
         return view('admin.index.index');
+    }
+
+
+    public function logout()
+    {
+        auth()->logout();
+
+        return redirect(route('admin.login'))->with('success','退出成功');
     }
 }
