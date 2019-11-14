@@ -264,11 +264,11 @@
                                                     <i class="fa fa-angle-right"></i>用户管理</a>
                                             </li>
                                             <li>
-                                                <a href="tables-static.html">
+                                                <a href="{{ route('admin.role.index') }}">
                                                     <i class="fa fa-angle-right"></i>角色管理</a>
                                             </li>
                                             <li>
-                                                <a href="tables-static.html">
+                                                <a href="{{ route('admin.node.index') }}">
                                                     <i class="fa fa-angle-right"></i>权限管理</a>
                                             </li>
                                         </ul>
@@ -584,6 +584,7 @@
 <!-- page Js -->
 <script src="{{ staticPath() }}assets/bundles/mainscripts.bundle.js"></script>
 <script src="{{ staticPath() }}assets/js/page/index.js"></script>
+{{--<script src="/js/jquery-min.js"></script>--}}
 
 
 @yield('js')

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Mail;
+use Illuminate\Mail\Message;
 
 class LoginController extends Controller
 {
@@ -30,6 +32,17 @@ class LoginController extends Controller
         if(!$bool){
             return redirect('admin/login')->withErrors(['error'=>'登陆失败']);
         }
+
+
+        $mail = auth()->user()->email;
+
+            Mail::raw('登陆成功',function (Message $message) use ($mail){
+                $message->subject('登录信息');
+
+                $message->to($mail,'小许');
+
+
+            });
 
             return redirect('admin/index');
 

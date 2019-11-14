@@ -17,4 +17,4 @@ Route::get('/', function () {
 
 //引入登录路由
 
-include base_path("routes/admin/login/route.php");
+include base_path("routes/admin/route.php");

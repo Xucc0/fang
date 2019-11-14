@@ -15,11 +15,12 @@ class AdminService
 
         $kw = $request->get('kw');
 
+        $user_id = auth()->user()->id;
 
         return Admin::when($kw,function ($query) use ($kw){
 
             $query -> where('username','like',"%{$kw}%");
 
-        })->orderBy('id','desc')->paginate($pagesize);
+        })->where('id','!=',$user_id)->orderBy('id','desc')->withTrashed()->paginate($pagesize);
     }
 }

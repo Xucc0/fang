@@ -6,6 +6,8 @@ use App\Models\Admin;
 use App\Models\Service\AdminService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Mail;
+use Illuminate\Mail\Message;
 
 class UserController extends BaseController
 {
@@ -13,7 +15,7 @@ class UserController extends BaseController
     public function index(Request $request)
     {
 
-        $data = (new AdminService())->getList($request,$this->pagesize);
+        $data = (new AdminService())->getList($request, $this->pagesize);
 
         return view('admin.user.index', compact('data'));
     }
@@ -27,20 +29,24 @@ class UserController extends BaseController
     public function store(Request $request)
     {
 
-//        dump($request->all()); exit;
-
-        $this ->validate($request,[
+        $this->validate($request, [
             'username' => 'required|unique:admins,username',
             'truename' => 'required',
-            'email'    => 'nullable|email',
+            'email' => 'nullable|email',
             'password' => 'required|confirmed',
-            'sex'      => 'required'
+            'sex' => 'required',
         ]);
 
 
-        Admin::create($request->except('_token','password_confirmation'));
+        Admin::create($request->except('_token', 'password_confirmation'));
 
-        return redirect(route('admin.user'))->with('success','添加用户成功');
+
+        Mail::raw('添加用户成功', function (Message $message) use ($request) {
+            $message->subject('添加用户通知');
+            $message->to($request->get('email'), '许');
+        });
+
+        return redirect(route('admin.user'))->with('success', '添加用户成功');
 
     }
 
@@ -48,50 +54,70 @@ class UserController extends BaseController
     {
 
         $data = Admin::find($id);
-        return view('admin.user.edit',compact('data'));
+        return view('admin.user.edit', compact('data'));
     }
 
-    public function update(Request $request,int $id)
+    public function update(Request $request, int $id)
     {
 
-        $data = $this->validate($request,[
+        $data = $this->validate($request, [
             'truename' => 'required',
             'email' => 'nullable|email',
-            'password'=>'nullable|confirmed',
-            'sex' =>"in:先生,女士",
+            'password' => 'nullable|confirmed',
+            'sex' => "in:先生,女士",
         ]);
 
 
-        if (!$data['password']){
+        if (!$data['password']) {
             unset($data['password']);
         }
 
-        Admin::where('id',$id)->update($data);
+        Admin::where('id', $id)->update($data);
 
-        return redirect(route('admin.user'))->with('success','修改成功');
+        return redirect(route('admin.user'))->with('success', '修改成功');
     }
 
     public function profile()
     {
         $data = auth()->user();
-        return view('admin.user.profile',compact('data'));
+        return view('admin.user.profile', compact('data'));
 
     }
 
-    public function editUser(Request $request,int $id)
+    public function editUser(Request $request, int $id)
     {
-        $data = $this->validate($request,[
-           'email' => 'nullable|email',
-           'password' => 'nullable|confirmed',
-            'phone' =>'nullable',
+        $data = $this->validate($request, [
+            'email' => 'nullable|email',
+            'password' => 'nullable|confirmed',
+            'phone' => 'nullable',
         ]);
 
-        if (!$data['password']){
+        if (!$data['password']) {
             unset($data['password']);
 
-            Admin::where('id',$id)->update($data);
+            Admin::where('id', $id)->update($data);
 
             return redirect(route('admin.profile'));
         }
     }
+
+    //删除用户
+    public function destroy(int $id)
+    {
+        Admin::destroy($id);
+
+
+        return ['status' => 200, 'msg' => '删除成功'];
+    }
+
+    //恢复用户
+
+    public function restore(int $id)
+    {
+        Admin::where('id', $id)->onlyTrashed()->restore();
+
+        return ['status' => 200, 'msg' => 'success'];
+    }
+
+
 }

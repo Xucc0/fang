@@ -17,12 +17,14 @@
 
                     <div style="width: 30%; margin-left: 10px;">
                         <form>
-                        <div class="input-group">
-                            <input type="text" value="{{ request()->get('kw') }}" class="form-control" placeholder="Search..." name="kw">
-                            <span class="input-group-btn">
-                                <button class="btn btn-raised btn-cyan"  type="submit" style="background-color:#49cdd0;color: #fff;">查找</button>
+                            <div class="input-group">
+                                <input type="text" value="{{ request()->get('kw') }}" class="form-control"
+                                       placeholder="Search..." name="kw">
+                                <span class="input-group-btn">
+                                <button class="btn btn-raised btn-cyan" type="submit"
+                                        style="background-color:#49cdd0;color: #fff;">查找</button>
                             </span>
-                        </div>
+                            </div>
                         </form>
                     </div>
 
@@ -74,7 +76,11 @@
                                         <td>
                                             <div class="togglebutton">
                                                 <label>
-                                                    <input type="checkbox" checked="">
+                                                    @if($val->deleted_at)
+                                                        <input onclick="changeUser(1,'{{ route('admin.restore',['id'=>$val]) }}',this)" type="checkbox">
+                                                    @else
+                                                        <input onclick="changeUser(0,'{{ route('admin.destroy',['id'=>$val]) }}',this)"type="checkbox" checked="true">
+                                                    @endif
                                                 </label>
                                             </div>
                                         </td>
@@ -92,7 +98,8 @@
                                                         <a href="{{ route('admin.edit',['id'=>$val]) }}">修改</a>
                                                     </li>
                                                     <li>
-                                                        <a href="#">删除</a>
+                                                        <a href="#"
+                                                           ids="{{ route('admin.destroy',$val) }}" class="del">删除</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -114,6 +121,51 @@
     </div>
 
 @endsection
+
+@section('js')
+
+    <script>
+        $(function () {
+            $('.del').click(function () {
+                var url = $(this).attr('ids');
+                var that = this;
+                $.ajax({
+                    url,
+                    data: {'_token': "{{ csrf_token() }}"},
+                    type: "delete",
+                }).then(res => {
+                    $(that).parents('tr').remove();
+                })
+            })
+        })
+
+        
+        //改变用户状态
+        
+        function changeUser(status,url,that) {
+
+            if (status == 0) {
+                $.ajax({
+                    url,
+                    data: {'_token': "{{ csrf_token() }}"},
+                    type: "delete",
+                }).then(res => {
+                   $(that).attr('checked','false')
+                })
+            }else{
+                $.ajax({
+                    url,
+                }).then(res => {
+
+                    console.log(res);
+                    $(that).attr('checked','true')
+                })
+            }
+        }
+    </script>
+
+@endsection
+
 
 
 
