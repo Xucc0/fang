@@ -54,6 +54,19 @@ return [
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
+        'article' => [
+            // 驱动 本地文件
+            'driver' => 'local',
+            // 上传到服务器的位置
+            'root' => public_path('uploads/article'),
+        ],
+        'fangattr' => [
+            // 驱动 本地文件
+            'driver' => 'local',
+            // 上传到服务器的位置
+            'root' => public_path('uploads/fangattr'),
+        ],
+
 
         's3' => [
             'driver' => 's3',

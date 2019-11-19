@@ -5,8 +5,8 @@
 
     <div class="page static-page-tables">
         <!-- row -->
-        <a class="btn btn-raised btn-cyan" style="background-color:#49cdd0;color: #fff;"
-           href="{{ route('admin.role.create') }}">添加角色</a>
+               {!! $addBtn !!}
+
         <div class="row">
             <div class="col-md-12">
                 <section class="boxs">
@@ -66,11 +66,8 @@
                                                 <i class="fa fa-user" style="font-size: 20px;"></i>
                                             </button>
                                             <button type="button" rel="tooltip"  class="btn btn-success btn-simple btn-xs">
-                                                <a href="{{ route('admin.role.edit',['id'=>$val]) }}"><i class="fa fa-edit" style="font-size: 20px;"></i></a>
+                                                {!! $val->editBtn('admin.role.edit') !!}
                                             </button>
-{{--                                            <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">--}}
-{{--                                                <i class="fa fa-times" style="font-size: 20px;"></i>--}}
-{{--                                            </button>--}}
                                         </td>
                                     </tr>
                                     @endforeach

@@ -52,6 +52,16 @@
                             <input type="email" class="form-control" id="inputEmail3" name="email" value="{{ $data->email }}">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">修改角色</label>
+                        <div class="col-sm-2 col-xs-6">
+                            <select class="form-control inline" name="role_id">
+                                @foreach($roleData as $val)
+                                    <option value="{{ $val->id }}" @if($roleName['id'] == $val->id) selected @endif>{{ $val->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                     <div class="edit-password" style="display: none;">
                     <div class="form-group">
                         <label for="inputPassword3" class="col-sm-2 control-label">密码</label>

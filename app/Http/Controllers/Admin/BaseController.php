@@ -15,4 +15,20 @@ class BaseController extends Controller
     {
         $this->pagesize = env('PAGESIZE');
     }
+
+
+    //上传文件
+    public function upfile(Request $request)
+    {
+
+        $node = $request->get('node');
+
+        $file =$request->file('file');
+
+        $uri = $file->store('',$node);
+
+
+        return ['status'=>200,'url'=>'/uploads/'.$node.'/'.$uri];
+
+    }
 }

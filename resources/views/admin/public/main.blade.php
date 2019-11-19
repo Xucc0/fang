@@ -252,29 +252,26 @@
                             <div class="panel-body">
                                 <!--  NAVIGATION Content -->
                                 <ul id="navigation">
-
+                                    @foreach($routeDatas as $val)
                                     <li>
                                         <a role="button" tabindex="0">
-                                            <i class="fa fa-user"></i>
-                                            <span>管理员管理</span>
+                                            <i class="fa fa-envelope"></i>
+                                            <span>{{ $val['name'] }}</span>
                                         </a>
                                         <ul>
+                                            @foreach($val['sub'] as $v)
                                             <li>
-                                                <a href="{{ route('admin.user') }}">
-                                                    <i class="fa fa-angle-right"></i>用户管理</a>
+                                                <a href="{{ route($v['route_name']) }}">
+                                                    <i class="fa fa-angle-right"></i> {{ $v['name'] }}
+                                                </a>
                                             </li>
-                                            <li>
-                                                <a href="{{ route('admin.role.index') }}">
-                                                    <i class="fa fa-angle-right"></i>角色管理</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('admin.node.index') }}">
-                                                    <i class="fa fa-angle-right"></i>权限管理</a>
-                                            </li>
+                                                @endforeach
                                         </ul>
                                     </li>
+                                    @endforeach
                                 </ul>
-                                <!--/ NAVIGATION Content -->
+
+                            <!--/ NAVIGATION Content -->
                             </div>
                         </div>
                     </div>
@@ -584,7 +581,6 @@
 <!-- page Js -->
 <script src="{{ staticPath() }}assets/bundles/mainscripts.bundle.js"></script>
 <script src="{{ staticPath() }}assets/js/page/index.js"></script>
-{{--<script src="/js/jquery-min.js"></script>--}}
 
 
 @yield('js')

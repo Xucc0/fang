@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Admin;
 use App\Models\Node;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -16,8 +17,10 @@ class NodeController extends Controller
 
         $data = getTree($data);
 
+        $addBtn = Admin::addBtn('admin.node.create','添加权限');
 
-        return view('admin.node.index',compact('data'));
+
+        return view('admin.node.index',compact('data','addBtn'));
     }
 
     /**
@@ -30,7 +33,10 @@ class NodeController extends Controller
         //
         $data = Node::where('pid',0)->pluck('name','id')->toArray();
 
-        array_unshift($data,'顶级');
+
+        $data[0] = '顶级';
+
+        ksort($data);
 
 
         return view('admin.node.add',compact('data'));

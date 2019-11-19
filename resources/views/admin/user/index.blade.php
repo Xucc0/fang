@@ -5,16 +5,14 @@
 
     <div class="page static-page-tables">
         <!-- row -->
-        <a class="btn btn-raised btn-cyan" style="background-color:#49cdd0;color: #fff;"
-           href="{{ route('admin.create') }}">添加用户</a>
         <div class="row">
             <div class="col-md-12">
+                    {!! $addBtn !!}
                 <section class="boxs">
                     <div class="boxs-header">
                         <h3 class="custom-font hb-cyan">
                             <strong>用户</strong>列表</h3>
                     </div>
-
                     <div style="width: 30%; margin-left: 10px;">
                         <form>
                             <div class="input-group">

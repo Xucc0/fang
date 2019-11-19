@@ -57,7 +57,7 @@
     <script>
         $(function () {
             $('.checks').click(function () {
-                var value = $(this).val();
+                var vals = $(this).val();
 
                 console.log($(this).prop('checked'));
                 if ($(this).prop('checked') == true){
@@ -68,19 +68,15 @@
                     })
                 }else{
                     $.each($('.checks'),function (key,val) {
-                        if ($(val).attr('pid') == value) {
+                        if ($(val).attr('pid') == vals) {
                             $(val).prop('checked',false);
                         }
+                        // else if ($("input[value=vals]") == $(val).attr('pid')){
+                        //     $("input[value=vals]").prop('checked',true);
+                        // }
                     })
                 }
-
-                // $.each($('.checks'),function (key,val) {
-                //     if ($(val).prop('checked')==false) {
-                //         if ($(val).attr('id') == value) {
-                //             $(val).prop('checked',true);
-                //         }
-                //     }
-                // })
+                })
 
 
             })

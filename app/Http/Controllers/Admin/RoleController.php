@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Admin;
 use App\Models\Node;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -15,8 +16,9 @@ class RoleController extends BaseController
 
         $data = Role::paginate($this->pagesize);
 
+        $addBtn = Admin::addBtn('admin.role.create','添加角色');
 
-        return view('admin.role.index',compact('data'));
+        return view('admin.role.index',compact('data','addBtn'));
     }
 
     public function create()

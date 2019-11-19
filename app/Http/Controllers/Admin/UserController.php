@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Admin;
+use App\Models\Role;
 use App\Models\Service\AdminService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -15,14 +16,20 @@ class UserController extends BaseController
     public function index(Request $request)
     {
 
+
+
         $data = (new AdminService())->getList($request, $this->pagesize);
 
-        return view('admin.user.index', compact('data'));
+
+        $addBtn = Admin::addBtn('admin.create','添加用户');
+
+        return view('admin.user.index', compact('data','addBtn'));
     }
 
     public function create()
     {
-        return view('admin.user.add');
+        $roleData = Role::all();
+        return view('admin.user.add',compact('roleData'));
     }
 
 
@@ -35,6 +42,7 @@ class UserController extends BaseController
             'email' => 'nullable|email',
             'password' => 'required|confirmed',
             'sex' => 'required',
+            'role_id' => 'required'
         ]);
 
 
@@ -54,7 +62,11 @@ class UserController extends BaseController
     {
 
         $data = Admin::find($id);
-        return view('admin.user.edit', compact('data'));
+        $roleData = Role::all();
+
+        $roleName = $data->roles->toArray();
+
+        return view('admin.user.edit', compact('data','roleName','roleData'));
     }
 
     public function update(Request $request, int $id)
@@ -65,6 +77,7 @@ class UserController extends BaseController
             'email' => 'nullable|email',
             'password' => 'nullable|confirmed',
             'sex' => "in:先生,女士",
+            'role_id' => 'required'
         ]);
 
 
@@ -80,6 +93,7 @@ class UserController extends BaseController
     public function profile()
     {
         $data = auth()->user();
+
         return view('admin.user.profile', compact('data'));
 
     }
